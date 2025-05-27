@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ConversationController!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_logout') }}">Logout</a>
+<h3>Messenger</h3>
+
+    <hr>
+    <h4>Tu es l'id :{{ app.user.id }},  mail : {{ app.user.email }}</h4>
+
+    <h4>Tous les users</h4>
+
+    {% for user in users %}
+
+        {% if user != app.user %}
+
+             <a href="{{ path('app_conversation_openwith', {id:user.id}) }}">{{ user.email }}</a>
+        {% endif %}
+
+    {% endfor %}
+<hr>
+
+<h3>Les conversations</h3>
+
+    {% for conversation in app.user.conversations %}
+        <a href="{{ path('app_conversation_open', {id:conversation.id}) }}">
+                Chat n°{{ conversation.id }}
+                between {%for participant in conversation.participants %}
+                {% if participant == app.user %} <span>C'est toi </span>
+                {% else %}<span>{{ participant.email }}</span>{% endif %} and
+                {% endfor %}
+            <br>
+        </a>
+
+    {% endfor %}
+
+
+
+
+{% endblock %}
